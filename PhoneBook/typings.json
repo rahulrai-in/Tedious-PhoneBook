@@ -1,0 +1,6 @@
+{
+  "globalDependencies": {
+    "grunt": "registry:dt/grunt#0.4.0+20160726182927",
+    "node": "registry:dt/node#6.0.0+20161229171858"
+  }
+}
