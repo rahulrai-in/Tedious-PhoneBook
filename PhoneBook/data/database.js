@@ -1,9 +1,9 @@
 ﻿(function (database) {
     var Connection = require("tedious").Connection;
     var config = {
-        userName: "rahulrai",
-        password: "Sql@1234",
-        server: "tediousphonebook.database.windows.net",
+        userName: "USERNAME",
+        password: "PASSWORD",
+        server: "SERVERNAME.database.windows.net",
         options: {
             database: "phonebook",
             encrypt: true,
@@ -12,18 +12,15 @@
     };
 
     database.getDirectory = function (next) {
-        var error = null;
-        var records = null;
         var connection = new Connection(config);
         connection.on("connect", function (err) {
             if (err) {
-                error = err;
+                next(err, null);
             } else {
                 var Request = require("tedious").Request;
-                var Types = require("tedious").Types;
                 var request = new Request("select PersonName, PhoneNumber from Directory", function (err, rowCount, rows) {
                     if (err) {
-                        error = err;
+                        next(err, null);
                     }
                 }).on("doneInProc", function (rowCount, more, rows) {
                     var jsonArray = [];
@@ -36,7 +33,7 @@
                         jsonArray.push(rowObject);
                     });
 
-                    next(error, jsonArray);
+                    next(null, jsonArray);
                 });
 
                 connection.execSql(request);
